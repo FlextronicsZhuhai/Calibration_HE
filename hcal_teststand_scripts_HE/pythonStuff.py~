@@ -1,0 +1,44 @@
+from subprocess import Popen, PIPE
+
+def send_commands(crate=None, slot=None, cmds=cmds_default):
+        # Sends commands to "uHTRtool.exe" and returns the raw output and a log. The input is a teststand object and a list of commands.
+        # Arguments and variables:
+        raw = ""
+        results = {}                # Results will be indexed by uHTR IP unless a "ts" has been specified, in which case they'll be indexed by (crate, slot).
+
+        ## Parse ip argument:
+        ips = meta.parse_args_ip(ts=ts, crate=crate, slot=slot, ip=ip)
+        if ips:
+                ## Parse control_hub argument:
+                control_hub = meta.parse_args_hub(ts=ts, control_hub=control_hub)
+
+                ## Parse cmds:
+                if isinstance(cmds, str):
+                        print 'WARNING (uhtr.send_commands): You probably didn\'t intend to run "uHTRtool.exe" with only one command: {0}'.format(cmds)
+                        cmds = [cmds]
+                cmds_str = ""
+                for c in cmds:
+                        cmds_str += "{0}\n".format(c)
+
+                # Send the commands:
+                for uhtr_ip, crate_slot in ips.iteritems():
+                        # Prepare the uHTRtool arguments:
+                        uhtr_cmd = "uHTRtool.exe {0}".format(uhtr_ip)
+                        if control_hub:
+                                uhtr_cmd += " -o {0}".format(control_hub)
+                        # Send commands and organize results:
+                        if script:
+                                with open("uhtr_script.cmd", "w") as out:
+                                        out.write(cmds_str)
+#                                print uhtr_cmd
+                                raw_output = Popen(['{0} < uhtr_script.cmd'.format(uhtr_cmd)], shell = True, stdout = PIPE, stderr = PIPE).communicate()
+                        else:
+                                raw_output = Popen(['printf "{0}" | {1}'.format(cmds_str, uhtr_cmd)], shell = True, stdout = PIPE, stderr = PIPE).communicate()                # This puts the output of the command into a list called "raw_output" the first element of the list is stdout, the second is stderr.
+                        raw += raw_output[0] + raw_output[1]
+                        if crate_slot:
+                                results[crate_slot] = raw
+                        else:
+                                results[uhtr_ip] = raw
+                return results
+        else:
+                return False
