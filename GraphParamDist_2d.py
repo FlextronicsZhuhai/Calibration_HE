@@ -2,6 +2,21 @@ from ROOT import *
 import sqlite3
 
 gROOT.SetBatch(kTRUE)
+shunt_Val ={1:0,
+            1.5:1,
+            2:2,
+            3:4,
+            4:8,
+            5:16,
+            6:18,
+            7:20,
+            8:24,
+            9:26,
+            10:28,
+            11:30,
+            11.5:31}
+shuntMultList = shunt_Val.keys()
+shuntMultList.sort()
 
 def graphParamDist(paramFileName):
     outputDirectory = paramFileName.split('qieCalibrationParam')[0]
@@ -14,7 +29,7 @@ def graphParamDist(paramFileName):
     for uniqueID in qieCards:
 
         print uniqueID
-        for shuntMult in shuntVal.keys():
+        for shuntMult in shuntMultList:
             parameterValues = cursor.execute("select * from qieshuntparams where id = ?", [str(uniqueID)]).fetchall()
 
             range0MinMax = cursor.execute("select min(slope), max(slope), min(offset), max(offset) from qieshuntparams where id = ? and range=? and shunt=?", [str(uniqueID),0,shuntMult]).fetchone()
