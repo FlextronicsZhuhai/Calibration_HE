@@ -102,7 +102,7 @@ def getValuesFromFile(outputDir):
         return linkMap, injectionCardMap 
                 
 
-def ShuntScan(ts,shuntMult=1):
+def ShuntScan(shuntMult=1):
          
 
          #relayOn = False
@@ -113,7 +113,7 @@ def ShuntScan(ts,shuntMult=1):
          rootfile = options.filename
          final_file = outputDirectory+rootfile
          #print  final_file
-         val= read_histo_2d(file_in=final_file,shuntMult=1)
+         val= read_histo_2d(file_in=final_file,shuntMult=shuntMult)
       #   output[shuntMult]=val 
          
                  
@@ -201,7 +201,7 @@ def QIECalibrationScan(options):
                     output={}
                     print "Now on shuntMult %.1f"%shuntMult
                     shuntOutputDirectory = outputDirectory #+ "Data_%s_%s/"%(rangeMode, shuntMode)
-                    vals = ShuntScan(ts,shuntMult=shuntMult)
+                    vals = ShuntScan(shuntMult=shuntMult)
                     #print vals[shuntMult]
                     #sys.exit()
                     #qieRange = vals.keys()
@@ -293,9 +293,9 @@ def QIECalibrationScan(options):
                             #else:
                              #   graphList_shunt.append(None)
                            # print graphList_shunt[1]
-                            shuntOutputDirectory = outputDirectory+'shunt/'
+                            #shuntOutputDirectory = outputDirectory+'shunt/'
 
-                            params_shunt =  doFit_combined(graphList = graphList_shunt, saveGraph = True, qieNumber = qieNum, qieUniqueID = qieID.replace(' ', '_'), useCalibrationMode = False, outputDir = shuntOutputDirectory, shuntMult=shuntMult)
+                            params_shunt =  doFit_combined(graphList = graphList_shunt, saveGraph = False, qieNumber = qieNum, qieUniqueID = qieID.replace(' ', '_'), useCalibrationMode = False, outputDir = outputDirectory, shuntMult=shuntMult)
 
                             uID = qieID.replace(' ', '_')
                             for i_range in graphs_shunt:
