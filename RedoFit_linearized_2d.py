@@ -256,44 +256,6 @@ def QIECalibrationScan(options):
                                 graphList_shunt.append(graphs_shunt[3][ih])
                             else:
                                 graphList_shunt.append(None)
-                           # if 8 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[8][ih])
-                            #else:
-                             #   graphList_shunt.append(None)
-                            #if 16 in graphs_shunt:
-                             #   graphList_shunt.append(graphs_shunt[16][ih])
-                            #else:
-                             #   graphList_shunt.append(None)
-                           # if 18 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[18][ih])
-                            #else:
-                             #   graphList_shunt.append(None)
-                           # if 20 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[20][ih])
-                           # else:
-                            #    graphList_shunt.append(None)
-                           # if 24 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[24][ih])
-                           # else:
-                            #    graphList_shunt.append(None)
-                            #if 26 in graphs_shunt:
-                             #   graphList_shunt.append(graphs_shunt[26][ih])
-                           # else:
-                            #    graphList_shunt.append(None)
-                           # if 28 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[28][ih])
-                           # else:
-                            #    graphList_shunt.append(None)
-                           # if 30 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[30][ih])
-                           # else:
-                            #    graphList_shunt.append(None)
-                           # if 31 in graphs_shunt:
-                            #    graphList_shunt.append(graphs_shunt[31][ih])
-                            #else:
-                             #   graphList_shunt.append(None)
-                           # print graphList_shunt[1]
-                            #shuntOutputDirectory = outputDirectory+'shunt/'
 
                             params_shunt =  doFit_combined(graphList = graphList_shunt, saveGraph = False, qieNumber = qieNum, qieUniqueID = qieID.replace(' ', '_'), useCalibrationMode = False, outputDir = outputDirectory, shuntMult=shuntMult)
 
@@ -305,7 +267,7 @@ def QIECalibrationScan(options):
                                     print values_shunt
                                     outputParamFile_shunt.write(str(values_shunt)+'\n')
          
-        outputParamFile_shunt.close()
+        #outputParamFile_shunt.close()
         for uID in uID_list:
                 graphParamDist(outputDirectory+"qieCalibrationParameters_%s.db"%uID)
 
@@ -325,7 +287,7 @@ def QIECalibrationScan(options):
                                 if linkMap[i_link]['unique_ID']==uID.replace('_',' '):
                                         slot = linkMap[i_link]['slot']
                         problemCards.append([slot,uID.replace('_',' ')])
-
+        outputParamFile_shunt.close()
         for card in problemCards:
                 print '*'*40
                 print 'PROBLEM WITH FIT IN QIE CARD'
